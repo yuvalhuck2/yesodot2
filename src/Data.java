@@ -80,6 +80,17 @@ public class Data {
         return projectCode;
     }
 
+    public boolean checkModeratorOfProject(String projectCode,String moderatorName){
+        Project projectToCheck=projectBycode.get(projectCode);
+        String moderatorOfProjectUserName=projectToCheck.getModeratorUserName();
+        return moderatorOfProjectUserName == null || moderatorOfProjectUserName.equals(moderatorName);
+
+    }
+
+    public boolean checkIfCanChooseProject(String projectCode){
+        return projectBycode.get(projectCode).getState()==State.APPROVED;
+    }
+
     private Student getStudentById(int id) {
         for(HashMap.Entry<String, Student> studentsAndCode : studentByUserName.entrySet()){
             Student currStudent=studentsAndCode.getValue();
@@ -97,6 +108,7 @@ public class Data {
     private int  getCurrYear(){
         return Calendar.getInstance().get(Calendar.YEAR);
     }
+
 
 
 
