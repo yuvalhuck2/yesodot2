@@ -63,11 +63,12 @@ public class ProposerMenu extends Menu  {
             String description = scanner.nextLine();
             System.out.println("Enter number of hours");
             int hours = scanner.nextInt();
-            if(isValidHours(hours)&&isValidName(nameOfProject)){
-               String code= data.addProject();//check with yuval
-                System.out.println("The project's code : "+ code);
-                flag=false;
-            }
+            System.out.println("Enter organization");
+            String organization = scanner.nextLine();
+            String code= data.addProject();//check with yuval
+            System.out.println("The project's code : "+ code);
+            flag=false;
+
 
         }
     }
@@ -81,9 +82,7 @@ public class ProposerMenu extends Menu  {
         return isValid;
 
     }
-    private boolean isValidName(String nameOfProject){
 
-    }
     @Override
     public boolean Register(){
         boolean flag = true;

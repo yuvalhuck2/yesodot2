@@ -8,7 +8,7 @@ public abstract class Menu {
 
 
 
-    public User runLoginMenu (){
+    public void runLoginMenu (){
         boolean flag=true;
         while (flag) {
             showLoginMenu();

@@ -14,8 +14,8 @@ public class Data {
         projectsCode=-1;
     }
 
-    public String addProject(String pName,String description,int hours,String proposerUserName,String organization){
-        Proposer proposer=proposerByUserName.get(proposerUserName);
+    public String addProject(String pName,String description,int hours,Proposer proposer,String organization){
+
         String code=getNextCode();
         Project newProject=new Project(code,pName,hours,description,proposer,organization);
         projectBycode.put(code,newProject);
