@@ -36,8 +36,8 @@ public class Data {
         return  studentByUserName.containsKey(userName);
     }
 
-    public boolean loginProposer(String userName){
-        return  proposerByUserName.containsKey(userName);
+    public Proposer loginProposer(String userName){
+        return  proposerByUserName.get(userName);
     }
 
     public boolean loginModerator(String userName){
