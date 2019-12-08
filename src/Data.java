@@ -11,6 +11,9 @@ public class Data {
 
     public Data() {
         projectBycode=new HashMap<>();
+        proposerByUserName=new HashMap<>();
+        studentByUserName=new HashMap<>();
+        moderatorByUserName=new HashMap<>();
         projectsCode=-1;
     }
 
@@ -45,40 +48,46 @@ public class Data {
         return organization.equals(currProject.getOrganization());
     }
 
-    public boolean loginStudent(String userName){
-        return  studentByUserName.containsKey(userName);
+    public Student loginStudent(String userName){
+        if(studentByUserName.containsKey(userName))
+            return studentByUserName.get(userName);
+        return null;
     }
 
     public Proposer loginProposer(String userName){
-        return  proposerByUserName.get(userName);
+        if(proposerByUserName.containsKey(userName))
+            return  proposerByUserName.get(userName);
+        return null;
     }
 
-    public boolean loginModerator(String userName){
-        return moderatorByUserName.containsKey(userName);
-    }
-
-    public Moderator registerModerator(String userName){
+    public Moderator loginModerator(String userName){
         if(moderatorByUserName.containsKey(userName))
-            return null;
+            return moderatorByUserName.get(userName);
+        return null;
+    }
+
+    public boolean registerModerator(String userName){
+        if(moderatorByUserName.containsKey(userName))
+            return false;
         Moderator newModerator=new Moderator(userName);
         moderatorByUserName.put(userName,newModerator);
-        return newModerator;
+        return true;
     }
 
-    public Student registerStudent(String userName,int id){
+    public boolean registerStudent(String userName,int id){
         if(studentByUserName.containsKey(userName))
-            return null;
+            return false;
         Student newStudent=new Student(userName,id);
         studentByUserName.put(userName,newStudent);
-        return newStudent;
+        return true;
     }
 
-    public Proposer registerProposer(String userName,String fName, String lName, String mail, String phoneNumber){
+    public boolean registerProposer(String userName,String fName, String lName, String mail, String phoneNumber){
         if(proposerByUserName.containsKey(userName))
-            return null;
+            return false;
         Proposer newProposer=new Proposer(userName,fName,lName,mail,phoneNumber);
         proposerByUserName.put(userName,newProposer);
-        return newProposer;
+        return true;
     }
 
     public State checkProjectState(String projectCode){
@@ -103,23 +112,27 @@ public class Data {
             if(currStudent.isSigendToProject())
                 return "student "+id+" is already sign to a project";
         }
+
         Project curr_project=projectBycode.get(projectCode);
+        String moderatorOfCurrProject=curr_project.getModeratorUserName();
+        if(moderatorOfCurrProject!=null&&!moderatorUserName.equals(moderatorOfCurrProject))
+            return  "moderator "+moderatorOfCurrProject+" is already signed to this project";
 
         curr_project.signToProject();
         for (int id:ids)
             getStudentById(id).SignToProject(projectCode);
+        myStudent.SignToProject(projectCode);
         return projectCode;
     }
 
-    public boolean checkModeratorOfProject(String projectCode,String moderatorName){
-        Project projectToCheck=projectBycode.get(projectCode);
-        String moderatorOfProjectUserName=projectToCheck.getModeratorUserName();
-        return moderatorOfProjectUserName == null || moderatorOfProjectUserName.equals(moderatorName);
-
-    }
     //@todo
     public boolean registerModeratorToProject(Moderator moderator,String projectCode){
+        Project currProject=projectBycode.get(projectCode);
+        if(currProject.getModeratorUserName()!=null)
+            return false;
+        currProject.setModeratorUserName(moderator.getUserName());
         return true;
+
     }
 
     public boolean checkIfCanNotChooseProject(String projectCode){

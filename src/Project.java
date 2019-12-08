@@ -55,4 +55,8 @@ public class Project {
     public void signToProject(){
         this.state=State.IN_PROGRESS;
     }
+
+    public void setModeratorUserName(String moderatorUserName) {
+        this.moderatorUserName = moderatorUserName;
+    }
 }
